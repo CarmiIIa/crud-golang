@@ -1,0 +1,64 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title> Go Products</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-9ndCyUaIbzAi2FUVXJi0CjmCapSmO7SnpJef0486qhLnuZ2cdeRhO02iuK6FUUVM" crossorigin="anonymous">
+  </head>
+  <body>
+
+    <!-- navbar -->
+    <nav class="navbar sticky-top navbar-expand-lg bg-body-secondary">
+      <div class="container">
+        <a class="navbar-brand" href="/">Go Products </a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarScroll" aria-controls="navbarScroll" aria-expanded="false" aria-label="Toggle navigation">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+          <ul class="navbar-nav ms-auto" style="--bs-scroll-height: 100px;">
+            <li class="nav-item">
+              <a class="nav-link active" href="/products">Products</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="/categories">Categories</a>
+            </li>
+          </ul>
+      </div>
+    </nav>
+    <!-- end navbar -->
+    
+    <div class="container mt-3">
+      <h1>Edit Product</h1>
+      <hr>
+      <form action="/products/edit" method="post">
+        <input type="hidden" name="id" value="{{ .product.Id }}" />
+        <div class="mt-3">
+          <label for="exampleInputEmail1" class="form-label">Name</label>
+          <input type="name" name="name" class="form-control" placeholder="input your name here" value="{{ .product.Name }}">
+        </div>
+        <div class="mt-3">
+            <label for="exampleInputEmail1" class="form-label">Category</label>
+            <select id="select" class="form-select" name="category_id">
+                {{ range .categories }}
+                <option value="{{ .Id }}">{{ .Name }} </option>
+                {{ end }}
+            </select>
+        </div>
+        <div class="mt-3">
+            <label for="exampleInputEmail1" class="form-label">Stock</label>
+            <input type="number" name="stock" class="form-control" placeholder="input stock" value="{{ .product.Stock }}">
+        </div>
+        <div class="mt-3">
+            <label for="exampleInputEmail1" class="form-label">Description</label>
+            <textarea type="text" name="description" rows="3" class="form-control" placeholder="input description">{{ .product.Description }}</textarea>
+        </div>
+        <div class="float-start">
+            <a href="/products " class="btn btn-secondary mt-3">Back</a>
+            <button type="submit" class="btn btn-primary mt-3">Save</button>
+        </div>
+      </form>
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js" integrity="sha384-I7E8VVD/ismYTF4hNIPjVp/Zjvgyol6VFvRkX/vR+Vc4jQkC+hVqc2pM8ODewa9r" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.min.js" integrity="sha384-fbbOQedDUMZZ5KreZpsbe1LCZPVmfTnH7ois6mU1QK+m14rQ1l2bGBq41eYeM/fS" crossorigin="anonymous"></script>
+  </body>
+</html>
