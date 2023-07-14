@@ -11,7 +11,7 @@ func Getall() []entities.Product {
 			products.id, 
 			products.name, 
 			categories.name as category_name,
-			tipes.name as tipe,
+			tipes.name as tipe_name,
 			products.stock, 
 			products.description, 
 			products.created_at, 
@@ -84,12 +84,14 @@ func Detail(id int) entities.Product {
 			products.id, 
 			products.name, 
 			categories.name as category_name,
+			tipes.name as tipe_name,
 			products.stock, 
 			products.description, 
 			products.created_at, 
 			products.updated_at 
 		FROM products
 		JOIN categories ON products.category_id = categories.id
+		JOIN tipes ON products.tipe_id = tipes.id
 		WHERE products.id = ?
 	`, id)
 
@@ -99,6 +101,7 @@ func Detail(id int) entities.Product {
 		&product.Id,
 		&product.Name,
 		&product.Category.Name,
+		&product.Tipe.Name,
 		&product.Stock,
 		&product.Description,
 		&product.CreatedAt,
@@ -118,13 +121,15 @@ func Update(id int, product entities.Product) bool {
 		UPDATE products SET
 			name = ?,
 			category_id = ?,
+			tipe_id = ?,
 			stock = ?,
 			description = ?,
-			updated_at = ?,
+			updated_at = ?
 		WHERE id = ?
 	`,
 		product.Name,
 		product.Category.Id,
+		product.Tipe.Id,
 		product.Stock,
 		product.Description,
 		product.UpdatedAt,
@@ -135,13 +140,14 @@ func Update(id int, product entities.Product) bool {
 		panic(err)
 	}
 
-	result, err := query.RowsAffected()
+	rowsAffected, err := query.RowsAffected()
 	if err != nil {
 		panic(err)
 	}
 
-	return result > 0
+	return rowsAffected > 0
 }
+
 
 func Delete(id int) error {
 	_, err := config.DB.Exec(`Delete FROM products WHERE id = ?`, id)

@@ -84,7 +84,7 @@ func Create(w http.ResponseWriter, r *http.Request) {
 
 		product.Name = r.FormValue("name")
 		product.Category.Id = uint(categoryId)
-		product.Tipe.Id= uint(tipeId)
+		product.Tipe.Id = uint(tipeId)
 		product.Stock = int64(stock)
 		product.Description = r.FormValue("description")
 		product.CreatedAt = time.Now()
@@ -116,9 +116,11 @@ func Edit(w http.ResponseWriter, r *http.Request) {
 		product := productmodel.Detail(id)
 
 		categories := categorymodel.GetAll()
+		tipes := tipemodel.GetAll()
 		data := map[string]any{
 			"categories": categories,
 			"product": product,
+			"tipes": tipes,
 		}
 	
 		temp.Execute(w, data)
@@ -138,6 +140,11 @@ func Edit(w http.ResponseWriter, r *http.Request) {
 			panic(err)
 		}
 
+		tipeId, err := strconv.Atoi(r.FormValue("tipe_id"))
+		if err != nil {
+			panic(err)
+		}
+
 		stock, err := strconv.Atoi(r.FormValue("stock"))
 		if err != nil {
 			panic(err)
@@ -145,6 +152,7 @@ func Edit(w http.ResponseWriter, r *http.Request) {
 
 		product.Name = r.FormValue("name")
 		product.Category.Id = uint(categoryId)
+		product.Tipe.Id = uint(tipeId)
 		product.Stock = int64(stock)
 		product.Description = r.FormValue("description")
 		product.UpdatedAt = time.Now()
