@@ -4,6 +4,7 @@ import (
 	"golang-crud/entities"
 	"golang-crud/models/categorymodel"
 	"golang-crud/models/productmodel"
+	"golang-crud/models/tipemodel"
 	"html/template"
 	"net/http"
 	"strconv"
@@ -54,8 +55,10 @@ func Create(w http.ResponseWriter, r *http.Request) {
 		}
 
 		categories := categorymodel.GetAll()
+		tipes := tipemodel.GetAll()
 		data := map[string]any{
 			"categories": categories,
+			"tipes": tipes,
 		}
 	
 		temp.Execute(w, data)
@@ -69,6 +72,11 @@ func Create(w http.ResponseWriter, r *http.Request) {
 			panic(err)
 		}
 
+		tipeId, err := strconv.Atoi(r.FormValue("tipe_id"))
+		if err != nil {
+			panic(err)
+		}
+
 		stock, err := strconv.Atoi(r.FormValue("stock"))
 		if err != nil {
 			panic(err)
@@ -76,6 +84,7 @@ func Create(w http.ResponseWriter, r *http.Request) {
 
 		product.Name = r.FormValue("name")
 		product.Category.Id = uint(categoryId)
+		product.Tipe.Id= uint(tipeId)
 		product.Stock = int64(stock)
 		product.Description = r.FormValue("description")
 		product.CreatedAt = time.Now()

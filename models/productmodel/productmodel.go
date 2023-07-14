@@ -11,12 +11,14 @@ func Getall() []entities.Product {
 			products.id, 
 			products.name, 
 			categories.name as category_name,
+			tipes.name as tipe,
 			products.stock, 
 			products.description, 
 			products.created_at, 
 			products.updated_at 
 		FROM products
 		JOIN categories ON products.category_id = categories.id
+		JOIN tipes ON products.tipe_id = tipes.id
 	`)
 
 	if err != nil {
@@ -33,6 +35,7 @@ func Getall() []entities.Product {
 			&product.Id,
 			&product.Name,
 			&product.Category.Name,
+			&product.Tipe.Name,
 			&product.Stock,
 			&product.Description,
 			&product.CreatedAt,
@@ -52,10 +55,11 @@ func Getall() []entities.Product {
 func Create(product entities.Product) bool {
 	result, err := config.DB.Exec(`
 		INSERT INTO products(
-			name, category_id, stock, description, created_at, updated_at
-		) VALUES (?,?,?,?,?,?)`,
+			name, category_id, tipe_Id, stock, description, created_at, updated_at
+		) VALUES (?,?,?,?,?,?,?)`,
 		product.Name,
 		product.Category.Id,
+		product.Tipe.Id,
 		product.Stock,
 		product.Description,
 		product.CreatedAt,
