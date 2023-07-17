@@ -2,6 +2,7 @@ package main
 
 import (
 	"golang-crud/config"
+	"golang-crud/controllers/brandcontroller"
 	"golang-crud/controllers/categorycontroller"
 	"golang-crud/controllers/homecontroller"
 	"golang-crud/controllers/productcontroller"
@@ -37,6 +38,12 @@ func main() {
 	http.HandleFunc("/tipe/create", tipecontroller.Create)
 	http.HandleFunc("/tipe/edit", tipecontroller.Edit)
 	http.HandleFunc("/tipe/delete", tipecontroller.Delete)
+
+	// brand
+	http.HandleFunc("/brand", brandcontroller.Index)
+	http.HandleFunc("/brand/create", brandcontroller.Create)
+	http.HandleFunc("/brand/edit", brandcontroller.Edit)
+	http.HandleFunc("/brand/delete", brandcontroller.Delete)
 
 	log.Println("Server running on port 8080")
 	http.ListenAndServe(":8080", nil)
