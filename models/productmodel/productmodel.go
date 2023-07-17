@@ -12,6 +12,7 @@ func Getall() []entities.Product {
 			products.name, 
 			categories.name as category_name,
 			tipes.name as tipe_name,
+			brands.name as brand_name,
 			products.stock, 
 			products.description, 
 			products.created_at, 
@@ -19,6 +20,7 @@ func Getall() []entities.Product {
 		FROM products
 		JOIN categories ON products.category_id = categories.id
 		JOIN tipes ON products.tipe_id = tipes.id
+		JOIN brands ON products.brand_id = brands.id
 	`)
 
 	if err != nil {
@@ -36,6 +38,7 @@ func Getall() []entities.Product {
 			&product.Name,
 			&product.Category.Name,
 			&product.Tipe.Name,
+			&product.Brand.Name,
 			&product.Stock,
 			&product.Description,
 			&product.CreatedAt,
@@ -55,11 +58,12 @@ func Getall() []entities.Product {
 func Create(product entities.Product) bool {
 	result, err := config.DB.Exec(`
 		INSERT INTO products(
-			name, category_id, tipe_Id, stock, description, created_at, updated_at
-		) VALUES (?,?,?,?,?,?,?)`,
+			name, category_id, tipe_Id, brand_id, stock, description, created_at, updated_at
+		) VALUES (?,?,?,?,?,?,?,?)`,
 		product.Name,
 		product.Category.Id,
 		product.Tipe.Id,
+		product.Brand.Id,
 		product.Stock,
 		product.Description,
 		product.CreatedAt,
@@ -85,6 +89,7 @@ func Detail(id int) entities.Product {
 			products.name, 
 			categories.name as category_name,
 			tipes.name as tipe_name,
+			brands.name as brand_name,
 			products.stock, 
 			products.description, 
 			products.created_at, 
@@ -92,6 +97,7 @@ func Detail(id int) entities.Product {
 		FROM products
 		JOIN categories ON products.category_id = categories.id
 		JOIN tipes ON products.tipe_id = tipes.id
+		JOIN brands ON products.brand_id = brands.id
 		WHERE products.id = ?
 	`, id)
 
@@ -102,6 +108,7 @@ func Detail(id int) entities.Product {
 		&product.Name,
 		&product.Category.Name,
 		&product.Tipe.Name,
+		&product.Brand.Name,
 		&product.Stock,
 		&product.Description,
 		&product.CreatedAt,
@@ -122,6 +129,7 @@ func Update(id int, product entities.Product) bool {
 			name = ?,
 			category_id = ?,
 			tipe_id = ?,
+			brand_id = ?,
 			stock = ?,
 			description = ?,
 			updated_at = ?
@@ -130,6 +138,7 @@ func Update(id int, product entities.Product) bool {
 		product.Name,
 		product.Category.Id,
 		product.Tipe.Id,
+		product.Brand.Id,
 		product.Stock,
 		product.Description,
 		product.UpdatedAt,

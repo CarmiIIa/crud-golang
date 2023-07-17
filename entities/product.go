@@ -7,6 +7,7 @@ type Product struct {
 	Name        string
 	Category    Category
 	Tipe    	Tipe
+	Brand    	Brand
 	Stock       int64
 	Description string
 	CreatedAt   time.Time

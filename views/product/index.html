@@ -45,7 +45,9 @@
                 <th>Name</th>
                 <th>Category</th>
                 <th>Tipe</th>
+                <th>Brand</th>
                 <th>Stock</th>
+                <th>Description</th>
                 <th>Action</th>
             </tr>
         </thead>
@@ -55,7 +57,9 @@
             <td>{{ .Name }}</td>
             <td>{{ .Category.Name }}</td>
             <td>{{ .Tipe.Name }}</td>
+            <td>{{ .Brand.Name }}</td>
             <td>{{ .Stock }}</td>
+            <td>{{ .Description }}</td>
             <td>
               <a href="/products/detail?id={{ .Id }}" class="btn btn-info text-white">Detail</a>
               <a href="/products/edit?id={{ .Id }}" class="btn btn-success">Edit</a>

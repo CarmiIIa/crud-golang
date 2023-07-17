@@ -2,6 +2,7 @@ package productcontroller
 
 import (
 	"golang-crud/entities"
+	"golang-crud/models/brandmodel"
 	"golang-crud/models/categorymodel"
 	"golang-crud/models/productmodel"
 	"golang-crud/models/tipemodel"
@@ -56,9 +57,11 @@ func Create(w http.ResponseWriter, r *http.Request) {
 
 		categories := categorymodel.GetAll()
 		tipes := tipemodel.GetAll()
+		brands := brandmodel.GetAll()
 		data := map[string]any{
 			"categories": categories,
 			"tipes": tipes,
+			"brands": brands,
 		}
 	
 		temp.Execute(w, data)
@@ -77,6 +80,11 @@ func Create(w http.ResponseWriter, r *http.Request) {
 			panic(err)
 		}
 
+		brandId, err := strconv.Atoi(r.FormValue("brand_id"))
+		if err != nil {
+			panic(err)
+		}
+
 		stock, err := strconv.Atoi(r.FormValue("stock"))
 		if err != nil {
 			panic(err)
@@ -85,6 +93,7 @@ func Create(w http.ResponseWriter, r *http.Request) {
 		product.Name = r.FormValue("name")
 		product.Category.Id = uint(categoryId)
 		product.Tipe.Id = uint(tipeId)
+		product.Brand.Id = uint(brandId)
 		product.Stock = int64(stock)
 		product.Description = r.FormValue("description")
 		product.CreatedAt = time.Now()
@@ -117,10 +126,12 @@ func Edit(w http.ResponseWriter, r *http.Request) {
 
 		categories := categorymodel.GetAll()
 		tipes := tipemodel.GetAll()
+		brands := brandmodel.GetAll()
 		data := map[string]any{
 			"categories": categories,
 			"product": product,
 			"tipes": tipes,
+			"brands": brands,
 		}
 	
 		temp.Execute(w, data)
@@ -145,6 +156,11 @@ func Edit(w http.ResponseWriter, r *http.Request) {
 			panic(err)
 		}
 
+		brandId, err := strconv.Atoi(r.FormValue("brand_id"))
+		if err != nil {
+			panic(err)
+		}
+
 		stock, err := strconv.Atoi(r.FormValue("stock"))
 		if err != nil {
 			panic(err)
@@ -153,6 +169,7 @@ func Edit(w http.ResponseWriter, r *http.Request) {
 		product.Name = r.FormValue("name")
 		product.Category.Id = uint(categoryId)
 		product.Tipe.Id = uint(tipeId)
+		product.Brand.Id = uint(brandId)
 		product.Stock = int64(stock)
 		product.Description = r.FormValue("description")
 		product.UpdatedAt = time.Now()

@@ -50,6 +50,10 @@
             <input type="text" name="tipe_id" class="form-control" value="{{ .product.Tipe.Name }}" disabled>
         </div>
         <div class="mt-3">
+          <label for="exampleInputEmail1" class="form-label">Brand</label>
+          <input type="text" name="brand_id" class="form-control" value="{{ .product.Brand.Name }}" disabled>
+        </div>
+        <div class="mt-3">
             <label for="exampleInputEmail1" class="form-label">Stock</label>
             <input type="number" name="stock" class="form-control" value="{{ .product.Stock }}" disabled>
         </div>
