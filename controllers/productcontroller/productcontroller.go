@@ -10,12 +10,13 @@ import (
 	"net/http"
 	"strconv"
 	"time"
+	"fmt"
 )
 
-func Index(w http.ResponseWriter, r *http.Request) {
+func Index(w http.ResponseWriter, _ *http.Request) {
 	products := productmodel.Getall()
 	data := map[string]any {
-		"products": products,
+		"products": products,	
 	}
 
 	temp, err := template.ParseFiles("views/product/index.html")
@@ -98,6 +99,16 @@ func Create(w http.ResponseWriter, r *http.Request) {
 		product.Description = r.FormValue("description")
 		product.CreatedAt = time.Now()
 		product.UpdatedAt = time.Now()
+
+		statusStr := r.FormValue("status")
+		fmt.Println("Received statusStr:", statusStr) // Add this line for debugging
+		status := entities.Ready
+		if statusStr == "TidakReady" {
+			status = entities.TidakReady
+		}
+		product.Status = status
+
+		fmt.Println("Product Status:", product.Status) // Add this line for debugging
 
 		if ok := productmodel.Create(product); !ok {
 			http.Redirect(w, r, r.Header.Get("Referer"), http.StatusTemporaryRedirect )

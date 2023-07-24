@@ -9,7 +9,7 @@ import (
 	"time"
 )
 
-func Index(w http.ResponseWriter, r *http.Request) {
+func Index(w http.ResponseWriter, _ *http.Request) {
 	tipes := tipemodel.GetAll()
 	data := map[string]any {
 		"tipes": tipes,
