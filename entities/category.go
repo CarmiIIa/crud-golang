@@ -7,4 +7,5 @@ type Category struct {
 	Name      string
 	CreatedAt time.Time
 	UpdatedAt time.Time
+	No		  int
 }

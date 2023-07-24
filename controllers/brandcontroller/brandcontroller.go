@@ -11,6 +11,11 @@ import (
 
 func Index(w http.ResponseWriter, r *http.Request) {
 	brands := brandmodel.GetAll()
+
+	for i := range brands {
+		brands[i].No = i + 1
+	}
+
 	data := map[string]any {
 		"brands": brands,
 	}

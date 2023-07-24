@@ -1,6 +1,7 @@
 package productcontroller
 
 import (
+	"fmt"
 	"golang-crud/entities"
 	"golang-crud/models/brandmodel"
 	"golang-crud/models/categorymodel"
@@ -10,13 +11,17 @@ import (
 	"net/http"
 	"strconv"
 	"time"
-	"fmt"
 )
 
 func Index(w http.ResponseWriter, _ *http.Request) {
 	products := productmodel.Getall()
-	data := map[string]any {
-		"products": products,	
+
+	for i := range products {
+		products[i].No = i + 1
+	}
+
+	data := map[string]interface{}{
+		"products": products,
 	}
 
 	temp, err := template.ParseFiles("views/product/index.html")
@@ -26,7 +31,6 @@ func Index(w http.ResponseWriter, _ *http.Request) {
 
 	temp.Execute(w, data)
 }
-
 
 func Detail(w http.ResponseWriter, r *http.Request) {
 	idString := r.URL.Query().Get("id")
@@ -48,7 +52,6 @@ func Detail(w http.ResponseWriter, r *http.Request) {
 	temp.Execute(w, data)
 }
 
-
 func Create(w http.ResponseWriter, r *http.Request) {
 	if r.Method == "GET" {
 		temp, err := template.ParseFiles("views/product/create.html")
@@ -61,10 +64,10 @@ func Create(w http.ResponseWriter, r *http.Request) {
 		brands := brandmodel.GetAll()
 		data := map[string]any{
 			"categories": categories,
-			"tipes": tipes,
-			"brands": brands,
+			"tipes":      tipes,
+			"brands":     brands,
 		}
-	
+
 		temp.Execute(w, data)
 	}
 
@@ -100,6 +103,24 @@ func Create(w http.ResponseWriter, r *http.Request) {
 		product.CreatedAt = time.Now()
 		product.UpdatedAt = time.Now()
 
+		// // Handle image upload
+		// file, handler, err := r.FormFile("image")
+		// if err != nil {
+		// 	panic(err)
+		// }
+		// defer file.Close()
+
+		// // Save the image to a predefined location or upload it to a cloud storage service.
+		// // Don't forget to handle naming conflicts and store the image path in the Product struct.
+		// imagePath := "/assets/image/" + handler.Filename // Add "/" after "image"
+		// fmt.Println("Image Path:", imagePath) // Add this line for debugging
+		// f, err := os.OpenFile(imagePath, os.O_WRONLY|os.O_CREATE, 0666)
+		// if err != nil {
+		// 	panic(err)
+		// }
+		// defer f.Close()
+		// io.Copy(f, file)
+
 		statusStr := r.FormValue("status")
 		fmt.Println("Received statusStr:", statusStr) // Add this line for debugging
 		status := entities.Ready
@@ -111,14 +132,13 @@ func Create(w http.ResponseWriter, r *http.Request) {
 		fmt.Println("Product Status:", product.Status) // Add this line for debugging
 
 		if ok := productmodel.Create(product); !ok {
-			http.Redirect(w, r, r.Header.Get("Referer"), http.StatusTemporaryRedirect )
+			http.Redirect(w, r, r.Header.Get("Referer"), http.StatusTemporaryRedirect)
 			return
 		}
 
 		http.Redirect(w, r, "/products", http.StatusSeeOther)
 	}
 }
-
 
 func Edit(w http.ResponseWriter, r *http.Request) {
 	if r.Method == "GET" {
@@ -140,11 +160,11 @@ func Edit(w http.ResponseWriter, r *http.Request) {
 		brands := brandmodel.GetAll()
 		data := map[string]any{
 			"categories": categories,
-			"product": product,
-			"tipes": tipes,
-			"brands": brands,
+			"product":    product,
+			"tipes":      tipes,
+			"brands":     brands,
 		}
-	
+
 		temp.Execute(w, data)
 	}
 
@@ -186,14 +206,13 @@ func Edit(w http.ResponseWriter, r *http.Request) {
 		product.UpdatedAt = time.Now()
 
 		if ok := productmodel.Update(id, product); !ok {
-			http.Redirect(w, r, r.Header.Get("Referer"), http.StatusTemporaryRedirect )
+			http.Redirect(w, r, r.Header.Get("Referer"), http.StatusTemporaryRedirect)
 			return
 		}
 
 		http.Redirect(w, r, "/products", http.StatusSeeOther)
 	}
 }
-
 
 func Delete(w http.ResponseWriter, r *http.Request) {
 	idString := r.URL.Query().Get("id")

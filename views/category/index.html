@@ -293,7 +293,7 @@
                     <table class="table table-striped" id="table-1">
                       <thead>
                         <tr>
-                          <th>ID</th>
+                          <th>NO</th>
                           <th>Name</th>
                           <th>Action</th>
                         </tr>
@@ -301,7 +301,7 @@
                       <tbody>
                         {{ range .categories }}
                         <tr>
-                          <td>{{ .Id }}</td>
+                          <td>{{ .No }}</td>
                           <td>{{ .Name }}</td>
                           <td>
                             <a href="/categories/edit?id={{ .Id }}" class="btn btn-success">Edit</a>

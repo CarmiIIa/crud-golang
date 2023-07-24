@@ -11,6 +11,11 @@ import (
 
 func Index(w http.ResponseWriter, r *http.Request) {
 	categories := categorymodel.GetAll()
+
+	for i := range categories {
+		categories[i].No = i + 1
+	}
+
 	data := map[string]any {
 		"categories": categories,
 	}

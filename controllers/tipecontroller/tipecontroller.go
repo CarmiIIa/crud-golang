@@ -11,6 +11,11 @@ import (
 
 func Index(w http.ResponseWriter, _ *http.Request) {
 	tipes := tipemodel.GetAll()
+	
+	for i := range tipes {
+		tipes[i].No = i + 1
+	}
+
 	data := map[string]any {
 		"tipes": tipes,
 	}

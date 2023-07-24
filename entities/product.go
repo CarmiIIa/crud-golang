@@ -20,4 +20,5 @@ type Product struct {
 	Description string
 	CreatedAt   time.Time
 	UpdatedAt   time.Time
+	No 			int
 }

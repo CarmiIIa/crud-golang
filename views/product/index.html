@@ -292,39 +292,44 @@
                   <div class="table-responsive">
                     <table class="table table-striped" id="table-1">
                       <thead>
+                          <tr>
+                              <th>No</th>
+                              <th>Name</th>
+                              <th>Category</th>
+                              <th>Tipe</th>
+                              <th>Brand</th>
+                              <th>Status</th>
+                              <th>Stock</th>
+                              <th>Description</th>
+                              <th>Action</th>
+                          </tr>
+                      </thead>
+                      <tbody>
+                        {{ range .products }}
                         <tr>
-                            <th>ID</th>
-                            <th>Name</th>
-                            <th>Category</th>
-                            <th>Tipe</th>
-                            <th>Brand</th>
-                            <th>Status</th>
-                            <th>Stock</th>
-                            <th>Description</th>
-                            <th>Action</th>
+                            <td>{{ .No }}</td>
+                            <td>{{ .Name }}</td>
+                            <td>{{ .Category.Name }}</td>
+                            <td>{{ .Tipe.Name }}</td>
+                            <td>{{ .Brand.Name }}</td>
+                            <td>
+                                {{ if eq .Status "TidakReady" }}
+                                    Tidak Ready
+                                {{ else }}
+                                    {{ .Status }}
+                                {{ end }}
+                            </td>
+                            <td>{{ .Stock }}</td>
+                            <td>{{ .Description }}</td>
+                            <td>
+                                <a href="/products/detail?id={{ .Id }}" class="btn btn-info text-white">Detail</a>
+                                <a href="/products/edit?id={{ .Id }}" class="btn btn-success">Edit</a>
+                                <a href="/products/delete?id={{ .Id }}" class="btn btn-danger" onclick="return confirm('Are you sure want to delete this product?')">Delete</a>
+                            </td>
                         </tr>
-                    </thead>
-                    <tbody>
-                      {{ range .products }}
-                      <tr>
-                        <td>{{ .Id }}</td>
-                        <td>{{ .Name }}</td>
-                        <td>{{ .Category.Name }}</td>
-                        <td>{{ .Tipe.Name }}</td>
-                        <td>{{ .Brand.Name }}</td>
-                        <td>{{ .Status }}</td>
-                        <td>{{ .Stock }}</td>
-                        <td>{{ .Description }}</td>
-                        <td>
-                          <a href="/products/detail?id={{ .Id }}" class="btn btn-info text-white">Detail</a>
-                          <a href="/products/edit?id={{ .Id }}" class="btn btn-success">Edit</a>
-                          <a href="/products/delete?id={{ .Id }}" class="btn btn-danger" 
-                            onclick="return confirm('Are you sure want to delete this product?')" >Delete</a>
-                        </td>
-                      </tr>
-                      {{ end }}
+                        {{ end }}
                     </tbody>
-                    </table>
+                  </table>
                   </div>
                 </div>
               </div>

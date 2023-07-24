@@ -45,8 +45,8 @@ func Getall() []entities.Product {
 			&product.Description,
 			&product.CreatedAt,
 			&product.UpdatedAt,
-		); 
-		
+		)
+
 		if err != nil {
 			panic(err)
 		}
@@ -94,6 +94,7 @@ func Detail(id int) entities.Product {
 			tipes.name as tipe_name,
 			brands.name as brand_name,
 			products.stock, 
+			products.status, 
 			products.description, 
 			products.created_at, 
 			products.updated_at 
@@ -113,10 +114,11 @@ func Detail(id int) entities.Product {
 		&product.Tipe.Name,
 		&product.Brand.Name,
 		&product.Stock,
+		&product.Status,
 		&product.Description,
 		&product.CreatedAt,
 		&product.UpdatedAt,
-	); 
+	)
 
 	if err != nil {
 		panic(err)
@@ -124,7 +126,6 @@ func Detail(id int) entities.Product {
 
 	return product
 }
-
 
 func Update(id int, product entities.Product) bool {
 	query, err := config.DB.Exec(`
@@ -159,7 +160,6 @@ func Update(id int, product entities.Product) bool {
 
 	return rowsAffected > 0
 }
-
 
 func Delete(id int) error {
 	_, err := config.DB.Exec(`Delete FROM products WHERE id = ?`, id)
